@@ -64,6 +64,5 @@ public class HardDespawnManager {
                 setExemptFromHardDespawn(entity, false);
             }
         }.runTaskLater(plugin,EXEMPTION_TIME_SECONDS  * 20L);
-
     }
 }
