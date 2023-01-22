@@ -9,4 +9,4 @@ Download the jar from the "download" section to the left of this page
 
 **Planned features**
 
-- [ ] Configurable despawn immunity time
+- Configurable despawn immunity time
