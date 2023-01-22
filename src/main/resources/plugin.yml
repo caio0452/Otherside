@@ -1,0 +1,6 @@
+name: Otherside
+version: '${project.version}'
+main: dev.kqmvs2.otherside.Otherside
+api-version: 1.19
+authors: [ kqmvs2 ]
+description: Adds temporary persistency to mobs going through portal
