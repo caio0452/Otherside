@@ -4,3 +4,13 @@ main: dev.kqmvs2.otherside.Otherside
 api-version: 1.13
 authors: [ kqmvs2 ]
 description: Adds temporary persistency to mobs going through portals
+
+commands:
+  otherside:
+    permission: otherside.main
+    description: Main otherside command
+
+permissions:
+  otherside.main:
+    description: Gives access to the main Otherside command
+    default: op

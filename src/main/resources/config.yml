@@ -1,0 +1,11 @@
+config-version-do-not-change: 1
+
+# Controls for how long a mob will be immune to hard despawn right after going through a portal.
+# All times in this config are in seconds
+default-despawn-immunity-time-seconds: 20
+
+# Immunity duration overrides per mob type.
+# Valid mob types: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+despawn-immunity-time-overrides:
+  piglin: 40
+  iron_golem: 40

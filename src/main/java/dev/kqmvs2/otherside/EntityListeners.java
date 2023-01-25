@@ -8,17 +8,17 @@ import org.bukkit.event.entity.EntityPortalEvent;
 import org.bukkit.event.world.EntitiesLoadEvent;
 
 public class EntityListeners implements Listener {
-    HardDespawnManager despawnManager;
+    DespawnImmunityManager despawnManager;
 
-    public EntityListeners(HardDespawnManager despawnManager) {
+    public EntityListeners(DespawnImmunityManager despawnManager) {
         this.despawnManager = despawnManager;
     }
 
     @EventHandler
     public void on(EntityPortalEvent event) {
-        if (event.getEntity() instanceof LivingEntity livingEntity) {
-            despawnManager.setExemptFromHardDespawn(livingEntity, true);
-            despawnManager.scheduleExemptionRemovalWhenTimesUp(livingEntity);
+        if (event.getEntity() instanceof LivingEntity livingEntity && livingEntity.getRemoveWhenFarAway()) {
+            despawnManager.setImmuneToHardDespawn(livingEntity, true);
+            despawnManager.enqueueImmunityRemoval(livingEntity);
         }
     }
 
@@ -26,7 +26,7 @@ public class EntityListeners implements Listener {
     public void on(EntitiesLoadEvent event) {
         for (Entity entity : event.getEntities()) {
             if (entity instanceof LivingEntity livingEntity && !livingEntity.getRemoveWhenFarAway()) {
-                despawnManager.removeHardDespawnExemptionIfTimesUp((LivingEntity) entity);
+                despawnManager.removeDespawnImmunityIfExpired((LivingEntity) entity);
             }
         }
     }
