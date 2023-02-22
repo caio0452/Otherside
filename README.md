@@ -11,3 +11,8 @@ Download the latest jar from the "downloads" section to the left of this page
 **Commands**
 
 - `/otherside reload`: reloads the config. Requires the `otherside.main` permission
+
+**Support**
+
+Join our support group: https://discord.gg/ej7tVqQjwt
+I'm Kyle.#4242 on Discord.
