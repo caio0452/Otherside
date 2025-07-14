@@ -23,6 +23,9 @@ public class DespawnImmunityManager {
     }
 
     public void setImmuneToHardDespawn(LivingEntity entity, boolean immune) {
+        if (!entity.getRemoveWhenFarAway()) {
+            return;
+        }
         PersistentDataContainer pdc = entity.getPersistentDataContainer();
         if (immune) {
             long unixEpoch = System.currentTimeMillis() / 1000L;
