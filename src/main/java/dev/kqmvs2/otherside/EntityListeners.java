@@ -8,7 +8,7 @@ import org.bukkit.event.entity.EntityPortalEvent;
 import org.bukkit.event.world.EntitiesLoadEvent;
 
 public class EntityListeners implements Listener {
-    DespawnImmunityManager despawnManager;
+    private final DespawnImmunityManager despawnManager;
 
     public EntityListeners(DespawnImmunityManager despawnManager) {
         this.despawnManager = despawnManager;

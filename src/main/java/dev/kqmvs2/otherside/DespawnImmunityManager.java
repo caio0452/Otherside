@@ -13,27 +13,25 @@ import java.util.Optional;
 import java.util.Queue;
 
 public class DespawnImmunityManager {
-    private final NamespacedKey EXEMPTION_KEY;
+    private final NamespacedKey HARD_DESPAWN_EXEMPT_SINCE_KEY;
     private final Queue<DespawnImmunityRemovalTask> exemptionRemovalTasks = new LinkedList<>();
     private final Otherside plugin;
 
     public DespawnImmunityManager(Otherside plugin) {
-        this.EXEMPTION_KEY = new NamespacedKey(plugin, "hard-despawn-exempt-since");
+        this.HARD_DESPAWN_EXEMPT_SINCE_KEY = new NamespacedKey(plugin, "hard-despawn-exempt-since");
         this.plugin = plugin;
     }
 
     public void setImmuneToHardDespawn(LivingEntity entity, boolean immune) {
-        if (!entity.getRemoveWhenFarAway()) {
-            return;
-        }
         PersistentDataContainer pdc = entity.getPersistentDataContainer();
         if (immune) {
+            if (!entity.getRemoveWhenFarAway()) return;
             long unixEpoch = System.currentTimeMillis() / 1000L;
-            pdc.set(EXEMPTION_KEY, PersistentDataType.LONG, unixEpoch);
+            pdc.set(HARD_DESPAWN_EXEMPT_SINCE_KEY, PersistentDataType.LONG, unixEpoch);
             entity.setRemoveWhenFarAway(false);
         } else {
-            if (pdc.has(EXEMPTION_KEY, PersistentDataType.LONG)) {
-                pdc.remove(EXEMPTION_KEY);
+            if (pdc.has(HARD_DESPAWN_EXEMPT_SINCE_KEY, PersistentDataType.LONG)) {
+                pdc.remove(HARD_DESPAWN_EXEMPT_SINCE_KEY);
                 entity.setRemoveWhenFarAway(true);
             }
         }
@@ -41,10 +39,10 @@ public class DespawnImmunityManager {
 
     public Optional<Instant> getHardDespawnImmuneSinceTimestamp(Entity entity) {
         PersistentDataContainer pdc = entity.getPersistentDataContainer();
-        if (!pdc.has(EXEMPTION_KEY, PersistentDataType.LONG)) {
+        if (!pdc.has(HARD_DESPAWN_EXEMPT_SINCE_KEY, PersistentDataType.LONG)) {
             return Optional.empty();
         }
-        long unixEpoch = pdc.get(EXEMPTION_KEY, PersistentDataType.LONG);
+        long unixEpoch = pdc.get(HARD_DESPAWN_EXEMPT_SINCE_KEY, PersistentDataType.LONG);
         return Optional.of(Instant.ofEpochSecond(unixEpoch));
     }
 
