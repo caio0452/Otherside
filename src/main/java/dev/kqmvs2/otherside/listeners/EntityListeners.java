@@ -9,6 +9,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPortalEvent;
 import org.bukkit.event.world.EntitiesLoadEvent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EntityListeners implements Listener {
     private final DespawnImmunityManager despawnManager;
     private final OthersideLogger logger;
@@ -20,9 +23,13 @@ public class EntityListeners implements Listener {
 
     @EventHandler
     public void on(EntityPortalEvent event) {
-        if (event.getEntity() instanceof LivingEntity livingEntity && livingEntity.getRemoveWhenFarAway()) {
-            despawnManager.setImmuneToHardDespawn(livingEntity, true);
-            despawnManager.enqueueImmunityRemoval(livingEntity);
+        List<Entity> allPortalingEntities = new ArrayList<>(event.getEntity().getPassengers());
+        allPortalingEntities.add(event.getEntity());
+        for (Entity entity : allPortalingEntities) {
+            if (entity instanceof LivingEntity livingEntity && livingEntity.getRemoveWhenFarAway()) {
+                despawnManager.setImmuneToHardDespawn(livingEntity, true);
+                despawnManager.enqueueImmunityRemoval(livingEntity);
+            }
         }
     }
 

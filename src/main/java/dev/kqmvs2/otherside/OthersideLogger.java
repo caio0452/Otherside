@@ -74,9 +74,10 @@ public class OthersideLogger {
         } else {
             nameStr = " (" + entity.getName() + ")";
         }
-        return String.format("%s%s @ %s(%.1f, %.1f, %.1f)",
+        return String.format("%s%s[%s] @ %s(%.1f, %.1f, %.1f)",
                 entity.getType(),
                 nameStr,
+                entity.getUniqueId(),
                 entity.getWorld().getName(),
                 entity.getLocation().getX(),
                 entity.getLocation().getY(),
