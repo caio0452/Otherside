@@ -1,5 +1,6 @@
 package dev.kqmvs2.otherside;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -74,11 +75,12 @@ public class OthersideLogger {
         } else {
             nameStr = " (" + entity.getName() + ")";
         }
-        return String.format("%s%s[%s] @ %s(%.1f, %.1f, %.1f)",
-                entity.getType(),
-                nameStr,
-                entity.getUniqueId(),
-                entity.getWorld().getName(),
+        return String.format(
+                "%s%s%s%s [%s%s%s] %s@ %s%s%s (%.1f, %.1f, %.1f)",
+                ChatColor.GOLD, entity.getType(), ChatColor.RESET, nameStr,
+                ChatColor.AQUA, entity.getUniqueId(), ChatColor.RESET,
+                ChatColor.GRAY,
+                ChatColor.GREEN, entity.getWorld().getName(), ChatColor.RESET,
                 entity.getLocation().getX(),
                 entity.getLocation().getY(),
                 entity.getLocation().getZ()
