@@ -3,6 +3,7 @@ package dev.kqmvs2.otherside.commands;
 import dev.kqmvs2.otherside.Otherside;
 import dev.kqmvs2.otherside.OthersideLogger;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.TabExecutor;
@@ -71,23 +72,25 @@ public class OthersideCommand implements TabExecutor {
     private void doVerboseSubcommand(CommandSender sender) {
         final String VERBOSE_MODE_OFF = "[OTHERSIDE] Verbose mode off. To enable, run /otherside verbose";
         final String VERBOSE_MODE_ON = "[OTHERSIDE] Verbose mode on. To disable, run /otherside verbose";
-        OthersideLogger logger = plugin.getOthersideLogger();
+        OthersideLogger othersideLogger = plugin.getOthersideLogger();
 
         if (sender instanceof org.bukkit.entity.Player player) {
-            if (logger.isPlayerReceivingVerboseLogs(player)) {
+            if (othersideLogger.isPlayerReceivingVerboseLogs(player)) {
                 player.sendMessage(VERBOSE_MODE_OFF);
-                logger.removePlayerDestination(player);
+                othersideLogger.removePlayerDestination(player);
+                othersideLogger.removeConsoleDestination();
             } else {
                 player.sendMessage(VERBOSE_MODE_ON);
-                logger.addDestination(player);
+                othersideLogger.addDestination(player);
+                othersideLogger.addDestination(Bukkit.getConsoleSender());
             }
         } else if (sender instanceof ConsoleCommandSender console) {
-            if (logger.isConsoleReceivingVerboseLogs()) {
-                logger.getLogger().info(VERBOSE_MODE_OFF);
-                logger.removeConsoleDestination();
+            if (othersideLogger.isConsoleReceivingVerboseLogs()) {
+                othersideLogger.getLogger().info(VERBOSE_MODE_OFF);
+                othersideLogger.removeConsoleDestination();
             } else {
-                logger.getLogger().info(VERBOSE_MODE_ON);
-                logger.addDestination(console);
+                othersideLogger.getLogger().info(VERBOSE_MODE_ON);
+                othersideLogger.addDestination(console);
             }
         }
     }
