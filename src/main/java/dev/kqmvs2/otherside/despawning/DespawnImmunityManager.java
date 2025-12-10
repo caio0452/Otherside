@@ -30,10 +30,12 @@ public class DespawnImmunityManager {
             long unixEpoch = System.currentTimeMillis() / 1000L;
             pdc.set(HARD_DESPAWN_EXEMPT_SINCE_KEY, PersistentDataType.LONG, unixEpoch);
             entity.setRemoveWhenFarAway(false);
+            this.plugin.getOthersideLogger().logStoppedBeingPersistent(entity);
         } else {
             if (pdc.has(HARD_DESPAWN_EXEMPT_SINCE_KEY, PersistentDataType.LONG)) {
                 pdc.remove(HARD_DESPAWN_EXEMPT_SINCE_KEY);
                 entity.setRemoveWhenFarAway(true);
+                this.plugin.getOthersideLogger().logBecamePersistent(entity);
             }
         }
     }

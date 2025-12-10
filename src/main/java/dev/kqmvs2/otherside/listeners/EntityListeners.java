@@ -23,7 +23,6 @@ public class EntityListeners implements Listener {
         if (event.getEntity() instanceof LivingEntity livingEntity && livingEntity.getRemoveWhenFarAway()) {
             despawnManager.setImmuneToHardDespawn(livingEntity, true);
             despawnManager.enqueueImmunityRemoval(livingEntity);
-            logger.logBecamePersistent(livingEntity);
         }
     }
 
@@ -32,7 +31,6 @@ public class EntityListeners implements Listener {
         for (Entity entity : event.getEntities()) {
             if (entity instanceof LivingEntity livingEntity && !livingEntity.getRemoveWhenFarAway()) {
                 despawnManager.removeDespawnImmunityIfExpired(livingEntity);
-                logger.logStoppedBeingPersistent(livingEntity);
             }
         }
     }
