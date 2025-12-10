@@ -1,11 +1,11 @@
 package dev.kqmvs2.otherside;
 
+import org.bukkit.entity.EntityType;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.entity.EntityType;
 
-import java.util.HashMap;
 import java.util.Locale;
+import java.util.HashMap;
 
 public class OthersideConfig {
     private final Otherside plugin;
@@ -24,11 +24,13 @@ public class OthersideConfig {
         final String IMMUNITY_TIME_OVERRIDES_KEY = "despawn-immunity-time-overrides";
 
         plugin.reloadConfig();
-
         defaultDespawnTime = plugin.getConfig().getInt(DEFAULT_DESPAWN_IMMUNITY_TIME_KEY);
-
         ConfigurationSection despawnSection = plugin.getConfig().getConfigurationSection(IMMUNITY_TIME_OVERRIDES_KEY);
         boolean hasInvalidMobTypes = false;
+
+        if (despawnSection == null) {
+            throw new InvalidConfigurationException("Missing " + IMMUNITY_TIME_OVERRIDES_KEY + " section");
+        }
         for (String entityTypeKey : despawnSection.getKeys(false)) {
             try {
                 EntityType entityType = EntityType.valueOf(entityTypeKey.toUpperCase(Locale.ROOT).replace(" ", "_"));

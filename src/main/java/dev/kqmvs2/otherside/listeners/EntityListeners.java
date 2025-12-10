@@ -1,5 +1,7 @@
-package dev.kqmvs2.otherside;
+package dev.kqmvs2.otherside.listeners;
 
+import dev.kqmvs2.otherside.despawning.DespawnImmunityManager;
+import dev.kqmvs2.otherside.OthersideLogger;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
@@ -9,9 +11,11 @@ import org.bukkit.event.world.EntitiesLoadEvent;
 
 public class EntityListeners implements Listener {
     private final DespawnImmunityManager despawnManager;
+    private final OthersideLogger logger;
 
-    public EntityListeners(DespawnImmunityManager despawnManager) {
+    public EntityListeners(DespawnImmunityManager despawnManager, OthersideLogger logger) {
         this.despawnManager = despawnManager;
+        this.logger = logger;
     }
 
     @EventHandler
@@ -19,6 +23,7 @@ public class EntityListeners implements Listener {
         if (event.getEntity() instanceof LivingEntity livingEntity && livingEntity.getRemoveWhenFarAway()) {
             despawnManager.setImmuneToHardDespawn(livingEntity, true);
             despawnManager.enqueueImmunityRemoval(livingEntity);
+            logger.logBecamePersistent(livingEntity);
         }
     }
 
@@ -26,7 +31,8 @@ public class EntityListeners implements Listener {
     public void on(EntitiesLoadEvent event) {
         for (Entity entity : event.getEntities()) {
             if (entity instanceof LivingEntity livingEntity && !livingEntity.getRemoveWhenFarAway()) {
-                despawnManager.removeDespawnImmunityIfExpired((LivingEntity) entity);
+                despawnManager.removeDespawnImmunityIfExpired(livingEntity);
+                logger.logStoppedBeingPersistent(livingEntity);
             }
         }
     }

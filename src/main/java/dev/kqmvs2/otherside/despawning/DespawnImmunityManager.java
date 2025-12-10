@@ -1,16 +1,17 @@
-package dev.kqmvs2.otherside;
+package dev.kqmvs2.otherside.despawning;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
+import dev.kqmvs2.otherside.Otherside;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.persistence.PersistentDataContainer;
 
-import java.time.Duration;
-import java.time.Instant;
-import java.util.LinkedList;
-import java.util.Optional;
 import java.util.Queue;
+import java.time.Instant;
+import java.time.Duration;
+import java.util.Optional;
+import java.util.LinkedList;
 
 public class DespawnImmunityManager {
     private final NamespacedKey HARD_DESPAWN_EXEMPT_SINCE_KEY;
@@ -42,8 +43,12 @@ public class DespawnImmunityManager {
         if (!pdc.has(HARD_DESPAWN_EXEMPT_SINCE_KEY, PersistentDataType.LONG)) {
             return Optional.empty();
         }
-        long unixEpoch = pdc.get(HARD_DESPAWN_EXEMPT_SINCE_KEY, PersistentDataType.LONG);
-        return Optional.of(Instant.ofEpochSecond(unixEpoch));
+        Long unixEpoch = pdc.get(HARD_DESPAWN_EXEMPT_SINCE_KEY, PersistentDataType.LONG);
+        if (unixEpoch == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(Instant.ofEpochSecond(unixEpoch));
+        }
     }
 
     public void processPendingImmunityRemovalTasks() {

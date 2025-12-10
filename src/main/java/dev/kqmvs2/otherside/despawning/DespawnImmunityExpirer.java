@@ -1,4 +1,4 @@
-package dev.kqmvs2.otherside;
+package dev.kqmvs2.otherside.despawning;
 
 import org.bukkit.scheduler.BukkitRunnable;
 
